@@ -7,7 +7,7 @@ const resolverCaso = (caso) => {
 }
 
 const definirAgenda = (dia) => {
-  return dia.split(',')
+  let agenda = dia.split(',')
           .map((appointment) => {
             const apt = appointment.split(' ')
             const inicio = apt[0].split(':')
@@ -17,12 +17,15 @@ const definirAgenda = (dia) => {
             return [...apt, minInicio, minFin]
           })
           .sort((a, b) => a[3] - b[3])
+    console.log("agenda", agenda)
+    return agenda
 }
 
 const encontrarMejorSiesta = (agenda) => {
   const tiempoLibre = Array.from({length: agenda.length - 1}, (_, index) => {
     return [agenda[index][1], agenda[index+1][3] - agenda[index][4]]
-  }).sort((a, b) => b[2] - a[2]);
+  }).sort((a, b) => b[1] - a[1]);
+  console.log("tiempoLibre", tiempoLibre)
   const duracion = `${Math.floor(tiempoLibre[0][1]/60) === 0? "" : Math.floor(tiempoLibre[0][1]/60) + " horas y "} ${tiempoLibre[0][1]%60 < 10? '0'+tiempoLibre[0][1]%60 : tiempoLibre[0][1]%60} minutos`
   return [tiempoLibre[0][0], duracion]
 }
